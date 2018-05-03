@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>无样式打印_使用iframe</title>
+		<style type="text/css">
+			#right_box {
+				width:1200px;
+				height:400px;
+				padding:20px;
+				border:1px solid green;
+				text-align: center;
+				font-size:16px;
+				line-height: 35px;
+				color:blueviolet;
+				margin: 0 auto;
+			}
+			table{
+				width:1200px;
+				border-collapse: collapse;
+			}
+			tr{
+				height:30px;
+				line-height: 30px;
+				font-size: 12px;
+				color:darkgoldenrod;
+			}
+			td{
+				width:222px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				/*border:1px solid orangered;*/
+				padding: 0 10px;
+			}
+			td span{
+				display: block;
+				width:200px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			tr td:nth-child(1){
+				width:400px;
+			}
+		  @media print {
+		    .noprint{
+		      display: none;
+		    }
+		  }
+		</style>
+		<!-- 或 -->
+		<!--<style type="text/css" media="print">
+		  .noprint{
+		    display: none;
+		  }
+		</style>-->
+
+	</head>
+	<body>
+		<div id="right_box">
+			<a href="#" onclick="javascript:history.back(1);event.returnValue=false" class="noprint"><<返回</a>
+			<br />
+			整体打印内容开始
+			<br />
+			<!-- startprint -->
+			局部打印的内容开始
+			<br />
+			<table  cellspacing="0" cellpadding="0" border="1">
+				<tr>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+				</tr>
+				<tr>
+					<td><span>tdksjflaklj</span></td>
+					<td><span>tdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflakljtdksjflaklj</span></td>
+					<td><span>tdksjflaklj</span></td>
+					<td><span>tdksjflaklj</span></td>
+					<td><span>tdksjflaklj</span></td>
+				</tr>
+			</table>
+			<br />
+			局部打印的内容结束
+			<br />
+			<!-- endprint -->
+			整体打印内容结束
+			<br />
+			<input type="button" value="整体打印" onclick="printAllPage();" class="noprint"/>
+			<input type="button" value="局部打印" onclick="printPage();" class="noprint"/>
+		</div>
+		<iframe id="iframeBox" src="" frameborder="0" width="0" height="0"></iframe>
+		
+		<!--<script src="jquery.min.js"></script>-->
+		<script>
+			$(document).ready(function(){
+			});
+			function printAllPage(){ /* 整体打印 */
+				window.print();
+			}
+			function printPage(){ /* 局部打印 */
+				var thisPage = window.document.body.innerHTML;
+				var startFlag = "<!-- startprint -->";
+				var endFlag = "<!-- endprint -->";
+				var printCon = thisPage.substring(thisPage.indexOf(startFlag),thisPage.indexOf(endFlag));
+				console.log(document);
+				var printArea = document.getElementById("iframeBox").contentWindow;
+				printArea.document.body.innerHTML = printCon;
+				printArea.document.execCommand("Print");
+			}
+		</script>
+	</body>
+</html>
+ 
